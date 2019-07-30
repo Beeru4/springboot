@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.beerus.mapper.ProjectInfoMapper">
+
+    <sql id="filterProject">
+        <where>
+            <if test="info.status != null">
+                status = #{info.status}
+            </if>
+        </where>
+    </sql>
+    <select id="listByPagProjectInfo" resultType="ProjectInfo">
+        SELECT * FROM `projectinfo`
+        <include refid="filterProject"></include>
+        ORDER BY id DESC
+        LIMIT #{currPageNo},#{pageSize}
+    </select>
+
+    <select id="count_Rows" resultType="Integer">
+        SELECT COUNT(1) FROM `projectinfo`
+        <include refid="filterProject"></include>
+    </select>
+
+    <update id="modifyProjectInfo">
+        UPDATE `projectinfo`
+                SET status = #{status}
+        WHERE id = #{id}
+    </update>
+    <select id="getProject" resultType="ProjectInfo">
+         SELECT * FROM `projectinfo` WHERE  id = #{id}
+    </select>
+</mapper>
